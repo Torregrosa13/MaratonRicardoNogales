@@ -27,5 +27,6 @@ namespace MaratonRicardoNogales.Models
 
         [ForeignKey("EquipoSeguidoId")]
         public Equipo EquipoSeguido { get; set; }
+
     }
 }

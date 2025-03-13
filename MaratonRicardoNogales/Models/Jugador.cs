@@ -16,6 +16,9 @@ namespace MaratonRicardoNogales.Models
         [Column("EQUIPO_ID")]
         public int EquipoId { get; set; }
 
+        [Column("DORSAL")]
+        public int Dorsal { get; set; }
+
         [ForeignKey("EquipoId")]
         public Equipo Equipo { get; set; }
     }

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 
 namespace MaratonRicardoNogales.Models
 {
@@ -31,5 +30,6 @@ namespace MaratonRicardoNogales.Models
 
         [ForeignKey("GrupoId")]
         public Grupo Grupo { get; set; }
+
     }
 }
