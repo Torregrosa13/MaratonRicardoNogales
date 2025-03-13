@@ -1,0 +1,46 @@
+﻿@model List<Partido>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Equipo Local</th>
+            <th>Visitante</th>
+            <th>Fecha</th>
+            <th>Goles Local</th>
+            <th>Goles Visitante</th>
+            <th>Finalizado</th>
+            <th>Fase</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                <td>@Html.DisplayFor(modelItem => item.EquipoLocal.Nombre)</td>  
+                <td>@Html.DisplayFor(modelItem => item.EquipoVisitante.Nombre)</td> 
+                <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                <td>@Html.DisplayFor(modelItem => item.GolesLocal)</td>
+                <td>@Html.DisplayFor(modelItem => item.GolesVisitante)</td>
+                <td>@Html.DisplayFor(modelItem => item.Finalizado)</td>
+                <td>@Html.DisplayFor(modelItem => item.Fase)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
