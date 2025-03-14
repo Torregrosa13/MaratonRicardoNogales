@@ -33,10 +33,12 @@
         body.index-page {
             position: relative;
         }
-        #partidos{
+
+        #partidos {
             background-color: transparent !important;
-            margin-top: 100px;
+            margin-top: 50px;
         }
+
         .background-image {
             position: fixed;
             top: 0;
@@ -56,8 +58,8 @@
 
         .card {
             max-height: 250px;
-            overflow:hidden;
-            margin-bottom: 100px; 
+            overflow: hidden;
+            margin-bottom: 100px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
@@ -115,7 +117,45 @@
             font-weight: bold;
         }
 
+        .welcome-section {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
 
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0d6efd;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            color: #495057;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            color: #6c757d;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .divider {
+            width: 80px;
+            height: 4px;
+            background-color: #0d6efd;
+            margin: 20px auto;
+            border-radius: 2px;
+        }
     </style>
 </head>
 
@@ -124,8 +164,20 @@
     <img src="~/images/IglesiaValverde.jpg" alt="Fondo" class="background-image">
 
     <main class="main">
+        <!-- Texto de Bienvenida -->
+        <div class="container" data-aos="fade-up">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Bienvenidos al Maratón Ricardo Nogales</h1>
+                <h2 class="welcome-subtitle">Valverde de Burguillos</h2>
+                <div class="divider"></div>
+                <p class="welcome-text">
+                    Disfruta de la pasión y la emoción del deporte en nuestro tradicional torneo. Un evento donde la comunidad se reúne para celebrar el talento local, la deportividad y la sana competición en un ambiente familiar y festivo. ¡Vive cada partido como si fuera una final!
+                </p>
+            </div>
+        </div>
+
         <!-- Contenido de Partidos -->
-        <section id="partidos" class="content-section" >
+        <section id="partidos" class="content-section">
             <div class="container" style="background-color:transparent">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
@@ -159,7 +211,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <span class="no-finalizado"><img src="~/images/clock.png" style="height:15px; width:15px;"/> Pendiente</span>
+                                                        <span class="no-finalizado"><img src="~/images/clock.png" style="height:15px; width:15px;" /> Pendiente</span>
                                                     }
                                                 </div>
                                             </div>
@@ -182,7 +234,7 @@
         </section>
     </main>
 
-    
+
 
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

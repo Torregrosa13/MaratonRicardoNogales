@@ -37,11 +37,14 @@
                                             @Html.DisplayFor(modelItem => item.GrupoId)
                                         </td>
                                         <td class="text-center">
+
                                             <a asp-controller="Torneos" asp-action="Plantilla" asp-route-idEquipo="@item.Id">
                                                 Ver Plantilla
                                             </a>
                                             @if(rol == "admin"){
                                                 <a class="btn btn-danger" asp-controller="Torneos" asp-action="DeleteTeam" asp-route-idEquipo="@item.Id">Eliminar</a>
+                                                <a class="btn btn-warning" asp-controller="Torneos" asp-action="AddPlayer" asp-route-idEquipo="@item.Id">Añadir Jugador</a>
+
                                             }
                                         </td>
                                     </tr>

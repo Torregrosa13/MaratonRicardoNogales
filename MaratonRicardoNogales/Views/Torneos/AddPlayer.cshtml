@@ -1,0 +1,33 @@
+﻿@model MaratonRicardoNogales.Models.Equipo
+
+@{
+    ViewData["Title"] = "Añadir Jugador";
+}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>@(ViewData["Title"] ?? "Añadir Jugador")</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+
+                <div class="mb-3">
+                    <label for="Nombre" class="form-label">Nombre del Jugador</label>
+                    <input type="text" class="form-control" id="Nombre" name="Nombre" required />
+                </div>
+                
+                <div class="mb-3">
+                    <label for="EquipoId" class="form-label">EquipoId</label>
+                    <input type="text" class="form-control" id="EquipoId" name="EquipoId" value="@Model.Id" required readonly />
+                </div>
+
+                <div class="mb-3">
+                    <label for="Dorsal" class="form-label">Número Dorsal</label>
+                    <input type="number" class="form-control" id="Dorsal" name="Dorsal" required />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Añadir Jugador</button>
+            </form>
+        </div>
+    </div>
+</div>

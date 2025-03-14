@@ -43,8 +43,12 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a asp-controller="Torneos" asp-action="Index">Torneo</a></li>
+                    @if (rol == "admin" || rol == "ADMIN" || rol == "USUARIO")
+                    {
+
                     <li><a asp-controller="Torneos" asp-action="Equipos">Equipos</a></li>
-                    @if(rol == "admin"){
+                    }
+                    @if(rol == "admin" || rol == "ADMIN"){
 
                     <li><a asp-controller="Torneos" asp-action="Create">Añadir Equipo</a></li>
                     }

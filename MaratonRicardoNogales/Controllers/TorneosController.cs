@@ -70,5 +70,21 @@ namespace MaratonRicardoNogales.Controllers
             return RedirectToAction("Equipos");
         }
 
+        public IActionResult AddPlayer(int idEquipo)
+        {
+            var equipo = this.repo.FindEquipoAsync(idEquipo);
+            if (equipo == null)
+            {
+                return NotFound();
+            }
+            return View(equipo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPlayer(Jugador jugador)
+        {
+            await this.repo.AddJugadorEquipoAsync(jugador.Nombre, jugador.EquipoId, jugador.Dorsal);
+            return RedirectToAction("Equipos", "Torneos");
+        }
     }
 }

@@ -130,9 +130,28 @@ namespace MaratonRicardoNogales.Repositories
 
         }
 
-        public async Task<Jugador> AddJugadorEquipo(Jugador jugador)
+        public async Task AddJugadorEquipoAsync(string Nombre, int EquipoId, int Dorsal)
         {
+            var equipoExists = await this.context.Equipos.AnyAsync(e => e.Id == EquipoId);
+            if (!equipoExists)
+            {
+                throw new ArgumentException("Invalid EquipoId");
+            }
 
+            var parameters = new[]
+            {
+                new SqlParameter("@Nombre", Nombre),
+                new SqlParameter("@EquipoId", EquipoId),
+                new SqlParameter("Dorsal", Dorsal)
+            };
+            await this.context.Database.ExecuteSqlRawAsync("EXEC SP_ADD_JUGADOR_EQUIPO @Nombre, @EquipoId, @Dorsal", parameters);
+        }
+
+
+        public async Task<Equipo> FindEquipoAsync(int idEquipo)
+        {
+            var equipo = await this.context.Equipos.Where(x => x.Id == idEquipo).FirstOrDefaultAsync();
+            return equipo;
         }
     }
 }
