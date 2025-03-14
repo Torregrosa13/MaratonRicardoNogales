@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MaratonRicardoNogales.Models;
 using MaratonRicardoNogales.Repositories;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace MaratonRicardoNogales.Controllers
 {
@@ -25,65 +26,28 @@ namespace MaratonRicardoNogales.Controllers
         public async Task<IActionResult>
             Login(string email, string password)
         {
-            Usuario user = await
-                this.repo.LoginAsync(email, password);
-            if (user != null)
+            var usuario = await this.repo.LoginAsync(email, password);
+            if(usuario != null)
             {
-                ClaimsIdentity identity =
-                    new ClaimsIdentity(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        ClaimTypes.Name, ClaimTypes.Role);
-                Claim claimEmail =
-                    new Claim(ClaimTypes.Name, user.Email);
-                identity.AddClaim(claimEmail);
-                Claim claimPass =
-                    new Claim(ClaimTypes.NameIdentifier
-                    , user.Password);
-                identity.AddClaim(claimPass);
-                Claim claimRol =
-                    new Claim(ClaimTypes.Role, user.Rol);
-                identity.AddClaim(claimRol);
-                if (user.Password == "admin")
-                {
-                    //CREAMOS UN CLAIM
-                    Claim claimAdmin =
-                        new Claim("Admin", "Soy el super jefe de la empresa");
-                    identity.AddClaim(claimAdmin);
-                }
+                HttpContext.Session.SetInt32("Id", usuario.Id);
+                HttpContext.Session.SetString("Nombre", usuario.Nombre);
+                HttpContext.Session.SetString("Email", usuario.Email);
+                HttpContext.Session.SetString("Password", usuario.Password);
+                HttpContext.Session.SetString("Rol", usuario.Rol);
 
-                ClaimsPrincipal userPrincipal =
-                    new ClaimsPrincipal(identity);
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    userPrincipal);
-                string controller =
-                    TempData["controller"].ToString();
-                string action =
-                    TempData["action"].ToString();
-                if (TempData["id"] != null)
-                {
-                    string id =
-                        TempData["id"].ToString();
-                    return RedirectToAction(action, controller
-                        , new { id = id });
-                }
-                else
-                {
-                    return RedirectToAction(action, controller);
-                }
+                return RedirectToAction("Index", "Torneos");
             }
             else
             {
-                ViewData["MENSAJE"] = "Usuario/Password incorrectos";
+                ViewData["MENSAJE"] = "Datos incorrectos";
                 return View();
             }
         }
 
-        public async Task<IActionResult> Logout()
+        public  IActionResult Logout()
         {
-            await HttpContext.SignOutAsync
-                (CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Torneos");
         }
 
         public IActionResult ErrorAcceso()

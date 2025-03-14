@@ -3,6 +3,8 @@
     ViewData["Title"] = "Plantilla";
 }
 
+@if(Model != null){
+
 <div class="container mt-5 pt-5">
     <div class="row">
         <div class="col-12">
@@ -90,3 +92,6 @@
         border-bottom: 0;
     }
 </style>
+}else{
+    <h1 style="margin-top: 150px;">@ViewData["MENSAJE"]</h1>
+}

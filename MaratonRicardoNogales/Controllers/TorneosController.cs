@@ -2,7 +2,7 @@
 using MaratonRicardoNogales.Models;
 using MaratonRicardoNogales.Repositories;
 using Microsoft.AspNetCore.Identity;
-using MaratonRicardoNogales.Filters;
+using Microsoft.IdentityModel.Tokens;
 
 namespace MaratonRicardoNogales.Controllers
 {
@@ -27,42 +27,47 @@ namespace MaratonRicardoNogales.Controllers
 
         public async Task<IActionResult> Plantilla(int idEquipo)
         {
-            List<Jugador> plantilla = await this.repo.GetPlantillaEquipos(idEquipo);
-            var nombreEquipo = plantilla.FirstOrDefault().Equipo.Nombre;
-            ViewData["NomEquipo"] = nombreEquipo;
-            return View(plantilla);
+            List<Jugador> plantilla = await this.repo.GetPlantillaEquiposAsync(idEquipo);
+            if(plantilla.Any())
+            {
+                var nombreEquipo = plantilla.FirstOrDefault().Nombre;
+                ViewData["NOMEQUIPO"] = nombreEquipo;
+                return View(plantilla);
+            }
+            else
+            {
+                ViewData["MENSAJE"] = "Plantilla vacía chato";
+                return View();
+            }
         }
 
-        [AuthorizeUsuarios]
-        public IActionResult Perfil()
+      
+        public async Task<IActionResult> Perfil()
         {
-            return View();
+            int idUsuario = (int)HttpContext.Session.GetInt32("Id");
+            var usuario = await this.repo.GetUsuarioAsync(idUsuario);
+            return View(usuario);
         }
 
         
          public IActionResult Create()
         {
-
             return View();
         }
 
 
         [HttpPost]
         public async Task<IActionResult> Create(Equipo equipo)
+        {            
+            await repo.AddEquipoAsync(equipo.Nombre, equipo.Codigo, equipo.Confirmado.ToString());
+            return RedirectToAction("Equipos", "Torneos");
+               
+        }
+
+        public async Task<IActionResult> DeleteTeam(int idEquipo)
         {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await repo.AddEquipoAsync(equipo);
-                    return RedirectToAction("Equipos", "Torneos");
-                }
-                catch (Exception ex)
-                {
-                    ViewData["Error"] = ex.Message;
-                }
-            }
-            return View(equipo);
+            await this.repo.DeleteEquipoAsync(idEquipo);
+            return RedirectToAction("Equipos");
         }
 
     }

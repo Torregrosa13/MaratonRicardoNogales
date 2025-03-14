@@ -10,20 +10,32 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using System.Diagnostics.Metrics;
+using Humanizer;
 
 namespace MaratonRicardoNogales.Repositories
 {
     #region PROCEDURES
-//    alter PROCEDURE SP_ADD_EQUIPO
+    //    alter PROCEDURE SP_ADD_EQUIPO
+    //    @Nombre NVARCHAR(100),
+    //    @Codigo NVARCHAR(50),
+    //    @Confirmado BIT
+    //AS
+    //BEGIN
+    //    INSERT INTO Equipos(Nombre, Codigo, Confirmado)
+    //    VALUES(@Nombre, @Codigo, @Confirmado);
+    //    END;
+
+//    CREATE PROCEDURE SP_ADD_JUGADOR_EQUIPO
 //    @Nombre NVARCHAR(100),
-//    @Codigo NVARCHAR(50),
-//    @Confirmado BIT
+//    @EquipoId INT,
+//    @Dorsal INT
 //AS
 //BEGIN
-//    INSERT INTO Equipos(Nombre, Codigo, Confirmado)
-//    VALUES(@Nombre, @Codigo, @Confirmado);
-//    END;
+//    SET NOCOUNT ON;
 
+//    INSERT INTO JUGADORES(NOMBRE, EQUIPO_ID, DORSAL)
+//    VALUES(@Nombre, @EquipoId, @Dorsal);
+//    END;
 
 
 
@@ -53,7 +65,7 @@ namespace MaratonRicardoNogales.Repositories
             return equipos;
         }
 
-        public async Task<List<Jugador>> GetPlantillaEquipos(int idEquipo)
+        public async Task<List<Jugador>> GetPlantillaEquiposAsync(int idEquipo)
         {
             var plantilla = await (from datos in this.context.Jugadores
                             where datos.EquipoId == idEquipo
@@ -81,16 +93,46 @@ namespace MaratonRicardoNogales.Repositories
         }
 
 
-        public async Task AddEquipoAsync(Equipo equipo)
+        public async Task AddEquipoAsync(string Nombre, string Codigo, string Confirmado)
         {
             var parameters = new[]
             {
-                new SqlParameter("@Nombre",equipo.Nombre),
-                new SqlParameter("@Codigo",equipo.Codigo),
-                new SqlParameter("@Confirmado",equipo.Confirmado)
+                new SqlParameter("@Nombre", Nombre),
+                new SqlParameter("@Codigo", Codigo),
+                new SqlParameter("@Confirmado", Confirmado)
             };
             await this.context.Database.ExecuteSqlRawAsync("EXEC SP_ADD_EQUIPO @Nombre, @Codigo, @Confirmado", parameters);
         }
 
+        public async Task<Usuario> GetUsuarioAsync(int id)
+        {
+            var usuario = await this.context.Usuarios.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return usuario;
+     
+        }
+
+        public async Task<List<Jugador>> GetPlantillaAsync(int idEquipo)
+        {
+            List<Jugador> plantilla = await this.context.Jugadores
+                .Where(x => x.EquipoId == idEquipo).ToListAsync();
+            return plantilla;
+        }
+
+        public async Task DeleteEquipoAsync(int idEquipo)
+        {
+            var equipo = await this.context.Equipos.FindAsync(idEquipo);
+            this.context.Equipos.Remove(equipo);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task UpdateEquipoAsync(Equipo equipo)
+        {
+
+        }
+
+        public async Task<Jugador> AddJugadorEquipo(Jugador jugador)
+        {
+
+        }
     }
 }

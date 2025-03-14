@@ -3,6 +3,12 @@
     ViewData["Title"] = "Equipos";
 }
 
+@{
+    int? id = Context.Session.GetInt32("Id");
+    var name = Context.Session.GetString("Nombre");
+    var rol = Context.Session.GetString("Rol");
+}
+
 <div class="container mt-5 pt-5">
     <div class="row">
         <div class="col-12">
@@ -34,6 +40,9 @@
                                             <a asp-controller="Torneos" asp-action="Plantilla" asp-route-idEquipo="@item.Id">
                                                 Ver Plantilla
                                             </a>
+                                            @if(rol == "admin"){
+                                                <a class="btn btn-danger" asp-controller="Torneos" asp-action="DeleteTeam" asp-route-idEquipo="@item.Id">Eliminar</a>
+                                            }
                                         </td>
                                     </tr>
                                 }

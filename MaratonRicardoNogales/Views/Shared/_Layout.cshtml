@@ -1,5 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Http
 
+@{
+    int? id = Context.Session.GetInt32("Id");
+    var name = Context.Session.GetString("Nombre");
+    var rol = Context.Session.GetString("Rol");
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,28 +44,23 @@
                 <ul>
                     <li><a asp-controller="Torneos" asp-action="Index">Torneo</a></li>
                     <li><a asp-controller="Torneos" asp-action="Equipos">Equipos</a></li>
-                    
+                    @if(rol == "admin"){
 
-                    @inject IHttpContextAccessor HttpContextAccessor
-
-                    @{
-                        var userName = HttpContextAccessor.HttpContext?.Session.GetString("UserName");
-                        var userRole = HttpContextAccessor.HttpContext?.Session.GetString("Role");
+                    <li><a asp-controller="Torneos" asp-action="Create">Añadir Equipo</a></li>
                     }
+                                    
 
-
-                    @if (!string.IsNullOrEmpty(userName))
+                    @if (id.HasValue)
                     {
-                        <li>Welcome, @userName</li>
-                        <li>Role: @userRole</li>
+                        <li style="color:yellow">Welcome @name</li>
+                        <li><a asp-controller="Managed" asp-action="Logout">LogOut</a></li>
+                    <li><a asp-controller="Torneos" asp-action="Perfil">Perfil</a></li>
                     }
                     else
                     {
                         <li><a asp-controller="Managed" asp-action="Login">Login</a></li>
                     }
 
-                    <li><a asp-controller="Torneos" asp-action="Perfil">Perfil</a></li>
-                    <li><a asp-controller="Torneos" asp-action="Create">Añadir Equipo</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>

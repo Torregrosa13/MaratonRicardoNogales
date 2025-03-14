@@ -1,8 +1,31 @@
-﻿@using System.Security.Claims
-<div style="margin-top: 150px;>
+﻿@model Usuario
 
-<h1>Perfil de @Context.User.Identity.Name</h1>
+<div style="margin-top:150px;">
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Perfil de @Model.Nombre</h2>
+                </div>
+                <div class="card-body text-center">
+
+                    <p class="lead"><strong>Email:</strong> @Model.Email</p>
+                    <p class="lead"><strong>Rol:</strong> @Model.Rol</p>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="/Home/EditarPerfil" class="btn btn-primary">
+                        <i class="fas fa-user-edit"></i> Editar Perfil
+                    </a>
+                    <a href="/Managed/Logout" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
+</div>

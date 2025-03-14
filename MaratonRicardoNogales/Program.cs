@@ -8,6 +8,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -16,29 +21,28 @@ builder.Services.AddTransient<RepositoryTorneo>();
 builder.Services.AddDbContext<TournamentContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession();
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultSignInScheme =
-    CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultAuthenticateScheme =
-    CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme =
-    CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie(
-    CookieAuthenticationDefaults.AuthenticationScheme,
-    config =>
-    {
-        config.AccessDeniedPath = "/Managed/ErrorAcceso";
-    });
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultSignInScheme =
+//    CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultAuthenticateScheme =
+//    CookieAuthenticationDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme =
+//    CookieAuthenticationDefaults.AuthenticationScheme;
+//}).AddCookie(
+//    CookieAuthenticationDefaults.AuthenticationScheme,
+//    config =>
+//    {
+//        config.AccessDeniedPath = "/Managed/ErrorAcceso";
+//    });
 
-builder.Services
-    .AddControllersWithViews
-    (options => options.EnableEndpointRouting = false)
-    .AddSessionStateTempDataProvider();
+//builder.Services
+//    .AddControllersWithViews
+//    (options => options.EnableEndpointRouting = false)
+//    .AddSessionStateTempDataProvider();
+//builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddHttpContextAccessor();
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -59,12 +63,10 @@ app.UseSession();
 
 app.MapStaticAssets();
 
-app.UseMvc(routes =>
-{ 
-    routes.MapRoute(
+app.MapControllerRoute(
     name: "default",
-    template: "{controller=Torneos}/{action=Index}/{id?}");
-});
+    pattern: "{controller=Torneos}/{action=Index}/{id?}")
+    .WithStaticAssets();
 
 
 app.Run();
