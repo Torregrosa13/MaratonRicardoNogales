@@ -1,0 +1,42 @@
+﻿@model MaratonRicardoNogales.Models.Usuario
+
+<div style="margin-top:150px;">
+    <h2>Registro</h2>
+    <form asp-action="Register" asp-controller="Managed" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label for="Nombre">Nombre</label>
+            <input type="text" asp-for="Nombre" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="string" asp-for="Email" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Contraseña</label>
+            <input type="password" asp-for="Password" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Rol">Rol</label>
+            <select asp-for="Rol" class="form-control">
+                <option value="Usuario">Usuario</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="EquipoSeguidoId">Equipo seguido (opcional)</label>
+            <input type="number" asp-for="EquipoSeguidoId" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+
+    <ul>
+        <li><a asp-controller="Managed" asp-action="Login">¿Ya tienes cuenta? Inicia sesión</a></li>
+    </ul>
+</div>

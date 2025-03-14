@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MaratonRicardoNogales.Models;
 using MaratonRicardoNogales.Repositories;
+using Microsoft.AspNetCore.Identity;
+using MaratonRicardoNogales.Filters;
 
 namespace MaratonRicardoNogales.Controllers
 {
@@ -30,5 +32,38 @@ namespace MaratonRicardoNogales.Controllers
             ViewData["NomEquipo"] = nombreEquipo;
             return View(plantilla);
         }
+
+        [AuthorizeUsuarios]
+        public IActionResult Perfil()
+        {
+            return View();
+        }
+
+        
+         public IActionResult Create()
+        {
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Equipo equipo)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await repo.AddEquipoAsync(equipo);
+                    return RedirectToAction("Equipos", "Torneos");
+                }
+                catch (Exception ex)
+                {
+                    ViewData["Error"] = ex.Message;
+                }
+            }
+            return View(equipo);
+        }
+
     }
 }

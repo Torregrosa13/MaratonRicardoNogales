@@ -1,0 +1,33 @@
+﻿@model MaratonRicardoNogales.Models.Equipo
+
+@{
+    ViewData["Title"] = "Crear Equipo";
+}
+
+<div style="margin-top: 150px;">
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="Torneos" asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="Nombre">Nombre</label>
+        <input type="text" class="form-control" id="Nombre" name="Nombre" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Codigo">Código</label>
+        <input type="text" class="form-control" id="Codigo" name="Codigo" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Confirmado">Confirmado</label>
+        <select class="form-control" id="Confirmado" name="Confirmado">
+            <option value="true">Sí</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Crear Equipo</button>
+</form>
+
+</div>
