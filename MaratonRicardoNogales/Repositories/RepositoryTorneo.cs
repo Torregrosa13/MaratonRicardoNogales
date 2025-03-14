@@ -142,7 +142,7 @@ namespace MaratonRicardoNogales.Repositories
             {
                 new SqlParameter("@Nombre", Nombre),
                 new SqlParameter("@EquipoId", EquipoId),
-                new SqlParameter("Dorsal", Dorsal)
+                new SqlParameter("@Dorsal", Dorsal)
             };
             await this.context.Database.ExecuteSqlRawAsync("EXEC SP_ADD_JUGADOR_EQUIPO @Nombre, @EquipoId, @Dorsal", parameters);
         }

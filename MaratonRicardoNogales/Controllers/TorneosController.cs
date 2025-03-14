@@ -70,9 +70,9 @@ namespace MaratonRicardoNogales.Controllers
             return RedirectToAction("Equipos");
         }
 
-        public IActionResult AddPlayer(int idEquipo)
+        public async Task<IActionResult> AddPlayer(int idEquipo)
         {
-            var equipo = this.repo.FindEquipoAsync(idEquipo);
+            var equipo = await this.repo.FindEquipoAsync(idEquipo);
             if (equipo == null)
             {
                 return NotFound();
